@@ -1,0 +1,29 @@
+{
+    "timestamp": "2026-11-20T08:56:38.110158+00:00",
+    "source": "data/artifacts/test_predictions.csv",
+    "batch_type": "REPLAY_OF_EXISTING_LABELLED_TEST_PREDICTIONS",
+    "total_rows": 159,
+    "required_columns": [
+        "image_path",
+        "filename",
+        "label",
+        "actual_label",
+        "predicted_label"
+    ],
+    "missing_columns": [],
+    "missing_values": {
+        "image_path": 0,
+        "filename": 0,
+        "label": 0,
+        "actual_label": 0,
+        "predicted_label": 0
+    },
+    "duplicate_records": 0,
+    "invalid_label_rows": 0,
+    "target_distribution": {
+        "Malignant": 82,
+        "Normal": 61,
+        "Bengin": 16
+    },
+    "validation_passed": true
+}

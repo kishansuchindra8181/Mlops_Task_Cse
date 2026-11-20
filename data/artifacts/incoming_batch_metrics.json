@@ -1,0 +1,44 @@
+{
+    "samples": 159,
+    "accuracy": 0.949685534591195,
+    "macro_precision": 0.8959839357429719,
+    "macro_recall": 0.8948087431693988,
+    "macro_f1": 0.8953627180899909,
+    "per_class": {
+        "Bengin": {
+            "precision": 0.75,
+            "recall": 0.75,
+            "f1": 0.75,
+            "support": 16
+        },
+        "Malignant": {
+            "precision": 0.9879518072289156,
+            "recall": 1.0,
+            "f1": 0.993939393939394,
+            "support": 82
+        },
+        "Normal": {
+            "precision": 0.95,
+            "recall": 0.9344262295081968,
+            "f1": 0.9421487603305784,
+            "support": 61
+        }
+    },
+    "confusion_matrix": {
+        "Bengin": {
+            "Bengin": 12,
+            "Malignant": 1,
+            "Normal": 3
+        },
+        "Malignant": {
+            "Bengin": 0,
+            "Malignant": 82,
+            "Normal": 0
+        },
+        "Normal": {
+            "Bengin": 4,
+            "Malignant": 0,
+            "Normal": 57
+        }
+    }
+}
