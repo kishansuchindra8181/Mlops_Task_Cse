@@ -140,13 +140,54 @@ chest-cancer-mlops/
 └── README.md
 ```
 
+## MLOps Practical Assessment: Monitoring and Retraining
+
+The workflow in `scripts/model_monitoring.py` validates a labelled incoming
+image batch, evaluates the current champion on that batch, trains a separate
+candidate from the existing training split plus the new batch, and compares
+the champion and candidate on the unchanged held-out test split. It writes
+validation, prediction, evaluation, and quality-gate reports under
+`data/artifacts/`. If MLflow is installed, it also records the candidate run;
+otherwise the decision report records that tracking was unavailable.
+
+Prepare `data/incoming/batch.csv` with these columns:
+
+```csv
+image_path,label
+data/raw/new-images/image-001.jpg,Malignant
+data/raw/new-images/image-002.jpg,Normal
+```
+
+Paths may be absolute or relative to the repository root. Provide the original
+images as well as the existing `data/processed/train.csv`, `val.csv`, and
+`test.csv` splits and `models/chest_cancer_model.keras`. Then run:
+
+```bash
+python scripts/model_monitoring.py --batch data/incoming/batch.csv
+```
+
+The batch is checked for missing values, invalid labels, missing image files,
+and duplicate image contents. Images already found in an existing train,
+validation, or test split are excluded from retraining to prevent leakage.
+
+Macro F1 is the promotion metric because it weights all three classes equally
+despite their different sample counts. The candidate is only marked eligible
+when its macro F1 on the held-out test split is at least the champion's. The
+workflow never replaces the champion automatically; any promotion is a
+separate, recorded action.
+
+The checked-in monitoring artifacts from the earlier replay are explicitly
+marked as using existing test predictions, not a new independent batch. They
+are not evidence of a completed candidate-training run. To generate assessment
+execution evidence, supply the incoming images and training splits above and
+run the workflow in an environment with the project's TensorFlow dependencies.
+
 ## Future Improvements
 
-- Model monitoring and data drift detection
-- Experiment tracking with MLflow
+- Data drift detection
 - Cloud deployment
 - Model explainability using Grad-CAM
-- Improved validation on independent datasets
+- Improved validation on additional independent datasets
 
 ## Disclaimer
 
@@ -159,12 +200,3 @@ This project is developed for educational and research purposes. It is not a cli
 GitHub: https://github.com/CodewithDeepakChaudhary
 
 Project: https://github.com/CodewithDeepakChaudhary/chest-cancer-mlops
-
-
-## MLOps Practical Assessment: Model Monitoring
-
-Run `python scripts/model_monitoring.py` to validate the available labelled prediction data, calculate classification metrics, and generate monitoring and quality-gate reports in `data/artifacts/`.
-
-**Limitation:** The available CSV contains existing test predictions, not an independent incoming batch. Original chest X-ray images are unavailable in this Codespace, so candidate model retraining could not be performed. The quality gate therefore records the candidate as BLOCKED and promotion as HOLD; the existing champion is retained. Macro F1 is used to give equal importance to all classes.
-
-API tests remain unverified because FastAPI is not installed and the pinned TensorFlow version is incompatible with the current Python 3.14 environment.
