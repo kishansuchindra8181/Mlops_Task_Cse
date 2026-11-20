@@ -159,3 +159,12 @@ This project is developed for educational and research purposes. It is not a cli
 GitHub: https://github.com/CodewithDeepakChaudhary
 
 Project: https://github.com/CodewithDeepakChaudhary/chest-cancer-mlops
+
+
+## MLOps Practical Assessment: Model Monitoring
+
+Run `python scripts/model_monitoring.py` to validate the available labelled prediction data, calculate classification metrics, and generate monitoring and quality-gate reports in `data/artifacts/`.
+
+**Limitation:** The available CSV contains existing test predictions, not an independent incoming batch. Original chest X-ray images are unavailable in this Codespace, so candidate model retraining could not be performed. The quality gate therefore records the candidate as BLOCKED and promotion as HOLD; the existing champion is retained. Macro F1 is used to give equal importance to all classes.
+
+API tests remain unverified because FastAPI is not installed and the pinned TensorFlow version is incompatible with the current Python 3.14 environment.
